@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+@theme {
+  --color-star-pink: #FFB7CE;
+  --color-star-yellow: #FFF44F;
+  --color-star-purple: #E6E6FA;
+  --color-star-orange: #FFDAB9;
+}
+
+:root {
+  --bg-color: #fdfbfb;
+  --text-color: #4a4a4a;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  overflow: hidden; /* Prevent scrolling for SPA feel */
+  user-select: none; /* Better for gesture-based app */
+}
+
+@layer base {
+  html, body, #root {
+    height: 100%;
+    width: 100%;
+  }
+}
+
+/* Custom animations or utilities */
+.glass-effect {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
