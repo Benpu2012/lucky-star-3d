@@ -176,17 +176,10 @@ const InteractiveJar = () => {
 
       {/* 瓶子阴影 (Contact Shadows) - 稳固扎根 */}
       <ContactShadows 
-        position={[0, 0, 0]} // Relative to group center? No, ContactShadows usually world.
-        // Wait, ContactShadows inside a moving group will move with it.
-        // Group center is -1.5. Shadow should be at bottom of visual.
-        // Visual bottom is at local Y=0 (relative to scale origin? No, Lathe starts at 0,0)
-        // Group is at -1.5. Visual mesh is inside group.
-        // Lathe points start at 0,0. So visual bottom is at Group Origin.
-        // So ContactShadows at [0,0,0] inside group means at -1.5 world Y.
-        // Correct.
-        opacity={0.8} 
+        position={[0, 0, 0]} 
+        opacity={0.4} 
         scale={10} 
-        blur={1.5} 
+        blur={2} 
         far={1} 
         color="#000000"
         // 阴影平面也不参与点击
