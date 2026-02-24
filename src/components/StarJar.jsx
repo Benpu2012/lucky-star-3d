@@ -123,11 +123,11 @@ const InteractiveJar = () => {
               color="#ffffff" 
               transmission={1.0}  
               opacity={0.5}       
-              roughness={0.0}    
+              roughness={0.02}    
               metalness={0.1}
-              ior={1.1}           
-              thickness={0.2}     
-              envMapIntensity={5.0} 
+              ior={1.5}           
+              thickness={1.0}     
+              envMapIntensity={2.5} 
               clearcoat={1.0}     
               clearcoatRoughness={0}
               side={THREE.DoubleSide}
@@ -144,13 +144,13 @@ const InteractiveJar = () => {
                   color="#ffffff" 
                   transmission={1.0} 
                   opacity={0.5} 
-                  roughness={0.0} 
+                  roughness={0.02} 
                   metalness={0.1}
-                  ior={1.1}
-                  thickness={0.2}
+                  ior={1.5}
+                  thickness={1.0}
                   clearcoat={1.0}
                   clearcoatRoughness={0}
-                  envMapIntensity={5.0}
+                  envMapIntensity={2.5}
                   transparent={true}
                 />
              </mesh>
@@ -160,13 +160,13 @@ const InteractiveJar = () => {
                   color="#ffffff" 
                   transmission={1.0} 
                   opacity={0.5} 
-                  roughness={0.0} 
+                  roughness={0.02} 
                   metalness={0.1}
-                  ior={1.1}
-                  thickness={0.2}
+                  ior={1.5}
+                  thickness={1.0}
                   clearcoat={1.0}
                   clearcoatRoughness={0}
-                  envMapIntensity={5.0}
+                  envMapIntensity={2.5}
                   transparent={true}
                 />
              </mesh>
@@ -264,9 +264,9 @@ const StarInJar = ({ star, index, onStarClick }) => {
     args: [0.4, 0.4, 0.25], // Increase collider size to match visual scale (0.25)
     position: startPos,
     rotation: [Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI],
-    angularVelocity: [(Math.random() - 0.5) * 10, (Math.random() - 0.5) * 10, (Math.random() - 0.5) * 10],
+    angularVelocity: [(Math.random() - 0.5) * 2, (Math.random() - 0.5) * 2, (Math.random() - 0.5) * 2],
     friction: 0.5,
-    restitution: 0.2,
+    restitution: 0.3,
     linearDamping: 0.5,
     angularDamping: 0.5
   }));
