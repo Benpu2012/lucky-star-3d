@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect, Suspense } from 'react';
+import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Loader2 } from 'lucide-react';
+import { X, Loader2, Languages } from 'lucide-react';
 import StarStrip from './components/StarStrip';
 import OrigamiArea from './components/OrigamiArea';
 import StarJar from './components/StarJar';
@@ -49,21 +50,37 @@ const BottomStarField = React.memo(() => {
   );
 });
 
-const Loading = () => (
-  <div className="flex flex-col items-center justify-center w-full h-full text-white/80">
-    <Loader2 className="w-12 h-12 animate-spin mb-4 text-blue-400" />
-    <p className="text-sm tracking-widest animate-pulse">正在点亮星空...</p>
-  </div>
-);
+const Loading = () => {
+  const { t } = useTranslation();
+  return (
+    <div className="flex flex-col items-center justify-center w-full h-full text-white/80">
+      <Loader2 className="w-12 h-12 animate-spin mb-4 text-blue-400" />
+      <p className="text-sm tracking-widest animate-pulse">{t('loading')}</p>
+    </div>
+  );
+};
 
 function App() {
+  const { t, i18n } = useTranslation();
   const [step, setStep] = useState(STEPS.WRITE);
   const [message, setMessage] = useState('');
   const [selectedColor, setSelectedColor] = useState(STAR_COLORS[0]);
   const [stars, setStars] = useLocalStorage('lucky-stars', []);
   const [bgGradient, setBgGradient] = useState(getBackgroundGradient());
   const [showWishList, setShowWishList] = useState(false);
+  const [showLangMenu, setShowLangMenu] = useState(false);
   const dailyLimit = 8;
+
+  const languages = [
+    { code: 'zh', name: '中文' },
+    { code: 'en', name: 'EN' },
+    { code: 'ja', name: '日本語' },
+  ];
+
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+    setShowLangMenu(false);
+  };
 
   const todayStarCount = stars.filter((star) => {
     const created = new Date(star.timestamp);
@@ -104,7 +121,7 @@ function App() {
   };
 
   const handleClearAll = () => {
-    if (window.confirm('确定要清空所有星星吗？此操作不可撤销。')) {
+    if (window.confirm(t('clearConfirm'))) {
       setStars([]);
     }
   };
@@ -125,18 +142,54 @@ function App() {
         <motion.header 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mt-8 text-center pointer-events-auto relative w-full"
+          className="mt-8 text-center pointer-events-auto relative w-full flex items-center justify-center"
         >
-          <h1
-            className="text-2xl font-light tracking-widest text-white"
-            style={{
-              textShadow:
-                '0 0 8px rgba(255,255,255,0.9), 0 0 16px rgba(173,216,255,0.9)',
-            }}
-          >
-            星语瓶
-          </h1>
-          <p className="text-xs text-gray-300 mt-1 italic">把愿望折进星星里</p>
+          {/* Language Switcher */}
+          <div className="absolute left-4 top-0 flex flex-col items-start">
+            <button 
+              onClick={() => setShowLangMenu(!showLangMenu)}
+              className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/20 text-white/80 hover:bg-white/20 transition-colors"
+            >
+              <Languages size={16} />
+              <span className="text-xs font-medium uppercase">{i18n.language.split('-')[0]}</span>
+            </button>
+            
+            <AnimatePresence>
+              {showLangMenu && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  className="mt-2 bg-gray-900/90 backdrop-blur-md border border-white/10 rounded-xl overflow-hidden shadow-xl"
+                >
+                  {languages.map((lang) => (
+                    <button
+                      key={lang.code}
+                      onClick={() => changeLanguage(lang.code)}
+                      className={`block w-full text-left px-4 py-2 text-xs hover:bg-white/10 transition-colors ${
+                        i18n.language.startsWith(lang.code) ? 'text-blue-400 bg-white/5' : 'text-white/60'
+                      }`}
+                    >
+                      {lang.name}
+                    </button>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          <div className="flex flex-col items-center">
+            <h1
+              className="text-2xl font-light tracking-widest text-white"
+              style={{
+                textShadow:
+                  '0 0 8px rgba(255,255,255,0.9), 0 0 16px rgba(173,216,255,0.9)',
+              }}
+            >
+              {t('title')}
+            </h1>
+            <p className="text-xs text-gray-300 mt-1 italic">{t('subtitle')}</p>
+          </div>
           
           {/* Clear All Button */}
           {stars.length > 0 && (
@@ -144,7 +197,7 @@ function App() {
               onClick={handleClearAll}
               className="absolute right-4 top-0 text-xs text-white/50 hover:text-white/80 transition-colors border border-white/20 rounded-full px-3 py-1"
             >
-              清空
+              {t('clear')}
             </button>
           )}
         </motion.header>
@@ -195,26 +248,26 @@ function App() {
 
                 <div className="mb-4">
                   <p className="text-xs tracking-[0.3em] text-[#b49a6b] uppercase mb-1">
-                    折纸 · 愿望清单
+                    {t('paperTitle')}
                   </p>
                   <h2 className="text-lg font-medium text-[#7a5b33]">
-                    这些都是你折进星星里的话
+                    {t('paperSubtitle')}
                   </h2>
                 </div>
 
                 <div className="mb-3 text-[11px] text-[#7a5b33]">
-                  <div>每日最多可以折 8 颗星星</div>
+                  <div>{t('dailyLimit')}</div>
                   <div className="mt-1 text-[#a3733a]">
-                    今天已折星星：{todayStarCount}/{dailyLimit}
+                    {t('todayCount', { count: todayStarCount, total: dailyLimit })}
                   </div>
                   <div className="mt-1 text-[#b49a6b]">
-                    至今一共折了 {stars.length} 颗许愿星星
+                    {t('totalCount', { count: stars.length })}
                   </div>
                 </div>
 
                 {stars.length === 0 ? (
                   <div className="py-8 text-center text-xs text-[#b49a6b]">
-                    还没有任何愿望，先写一条试试吧。
+                    {t('noWishes')}
                   </div>
                 ) : (
                   <div className="mt-2 max-h-80 overflow-y-auto pr-2 space-y-3">

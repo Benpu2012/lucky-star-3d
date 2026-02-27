@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import * as THREE from 'three';
 import { Canvas, useThree } from '@react-three/fiber';
 import { ContactShadows, Environment, Text, Html } from '@react-three/drei';
@@ -294,6 +295,7 @@ const StarInJar = ({ star, index, onStarClick }) => {
 };
 
 const StarJar = ({ stars, onDelete }) => {
+  const { t } = useTranslation();
   const [selectedStar, setSelectedStar] = useState(null);
 
   const handleDelete = () => {
@@ -392,7 +394,7 @@ const StarJar = ({ stars, onDelete }) => {
               </div>
 
               <h3 className="text-center text-lg font-medium text-gray-800 mb-2">
-                一颗幸运星
+                {t('starModalTitle')}
               </h3>
               
               <div className="bg-white/50 rounded-xl p-6 text-center border border-gray-100">
@@ -406,7 +408,7 @@ const StarJar = ({ stars, onDelete }) => {
                     onClick={handleDelete}
                     className="px-4 py-2 bg-red-50 text-red-400 text-xs rounded-full hover:bg-red-100 transition-colors"
                 >
-                    删除
+                    {t('delete')}
                 </button>
               </div>
               

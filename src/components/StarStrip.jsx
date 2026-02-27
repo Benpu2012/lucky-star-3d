@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { STAR_COLORS, MAX_MESSAGE_LENGTH } from '../utils/constants';
 import { Send } from 'lucide-react';
 
 const StarStrip = ({ onSubmit, colors, onShowWishList }) => {
+  const { t } = useTranslation();
   const [text, setText] = useState('');
   const [selectedColor, setSelectedColor] = useState(colors[0]);
 
@@ -33,7 +35,7 @@ const StarStrip = ({ onSubmit, colors, onShowWishList }) => {
             type="text"
             value={text}
             onChange={(e) => setText(e.target.value.slice(0, MAX_MESSAGE_LENGTH))}
-            placeholder="输入你的愿望..."
+            placeholder={t('placeholder')}
             className="w-full h-full bg-transparent border-none outline-none text-center text-white placeholder-white/50 px-4 text-sm font-bold drop-shadow-md tracking-wide"
             autoFocus
           />
@@ -76,7 +78,7 @@ const StarStrip = ({ onSubmit, colors, onShowWishList }) => {
                 : 'bg-gray-100 text-gray-400 cursor-not-allowed'
             }`}
           >
-            <span className="text-sm font-medium">放入瓶中</span>
+            <span className="text-sm font-medium">{t('submit')}</span>
             <Send size={14} />
           </motion.button>
 
@@ -90,7 +92,7 @@ const StarStrip = ({ onSubmit, colors, onShowWishList }) => {
                 : 'border-white/30 bg-white/10 text-white/40 cursor-not-allowed'
             }`}
           >
-            展开折纸
+            {t('expand')}
           </button>
         </div>
       </div>
