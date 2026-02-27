@@ -7,6 +7,7 @@ import OrigamiArea from './components/OrigamiArea';
 import StarJar from './components/StarJar';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { STAR_COLORS } from './utils/constants';
+import { Analytics } from '@vercel/analytics/react';
 
 const STEPS = {
   WRITE: 'write',
@@ -305,6 +306,7 @@ function App() {
           )}
         </AnimatePresence>
       </div>
+      <Analytics />
     </div>
   );
 }
